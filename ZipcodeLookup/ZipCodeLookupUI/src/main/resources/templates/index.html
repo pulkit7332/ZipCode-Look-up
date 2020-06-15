@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Zip Code Lookup</title>
+    
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script th:src="@{/jquery.spring-friendly.js}"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+<script th:inline="javascript">
+
+$(document).ready(function() {
+	
+	 
+	// #myInput is a <input type="text"> element
+	
+$.extend($.fn.dataTable.defaults, {
+		'scrollX': true
+		}); 
+	var ctx = $("meta[name='ctx']").attr("content");
+	var table =$('table#datatable-responsive-appuser').DataTable({
+    ajax:/*[[@{list/data}]]*/,     
+    serverSide: true,
+   /*  order: [ 0, "desc" ], */
+    columns: [
+        {
+            data: 'zip'
+        },
+        {
+            data: 'city'
+        },
+        {
+            data: 'state'
+        },
+        {
+            data: 'latitude',
+            orderable:false,
+            searchable:false
+        },
+        {
+            data: 'longitude',
+                orderable:false,
+                searchable:false
+        },
+        {
+            data: 'timezone',
+                orderable:false,
+                searchable:false
+        },
+        {
+            data: 'dst',
+                orderable:false,
+                searchable:false
+        }
+    ]
+    
+});
+	$('#stateInput').on( 'keyup', function () {
+	    table.column(2).search( this.value ).draw();
+	} );
+	$('#cityInput').on( 'keyup', function () {
+	    table.column(1).search( this.value ).draw();
+	} );
+	$('#zipInput').on( 'keyup', function () {
+	    table.column(0).search( this.value ).draw();
+	} );
+});
+</script>
+  
+</head>
+
+<body>
+    <div class="container">
+        <h2 class="text-info text-center">NearPe Assignment-ZipCode Look Up</h2>
+        <hr/>
+       <!--  <div id="welcome">
+            <p><a href="/welcome" class="text-primary">Click here to read welcome message.</a></p>
+        </div> -->
+       
+        
+        <br>
+        		<div id="datatable-responsive_wrapper"
+							class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+
+							<div class="row">
+        	
+        	<table id="datatable-responsive-appuser"
+										class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline"
+										cellspacing="0" width="100%" role="grid"
+										aria-describedby="datatable-responsive_info"
+										style="width: 100%;">
+
+										<thead>
+											<tr role="row">
+												<th><input id="zipInput" type="text" placeholder="Zip Code"></th>
+												<th><input id="cityInput" type="text" placeholder="City Name"></th>
+												<th><input id="stateInput" type="text" placeholder="State Name"></input>
+												</th>
+												<th>Latitude</th>
+												<th>Longitude</th>
+												<th >TimeZone</th>
+												<th >DST</th>
+											</tr>
+										</thead>
+									</table>
+									</div>
+									</div>
+</div>
+        	
+</body>
+
+</html>
